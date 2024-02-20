@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style></style>
+
+</head>
+<body>
+    <form action="" method="get">
+        <label for="Buscar"></label>
+        <input type="text" name="busqueda" id="busqueda"/>
+        <input class="btn btn-secondary" type="submit" value="Buscar" />
+    </form>
+    <form action="pedidoprueba" method="post">
+        {% csrf_token %}
+        <div class="container-fluid">
+            {% for product in result %}
+                <div class="card" style="width:300px">
+                    <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text">{{ product.titulo }}</p>
+                        <span class="product-price">$ {{ product.precio }}</span>
+                    </div>
+                    <div name="div_de_cant">
+                        <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
+                        <input name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
+                        <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <label for="Enviar"></label>
+        <input class="btn btn-primary" type="submit" value="Enviar Pedido" />
+    </form>
+    <!-- Repeat the above structure for other products -->
+
+    <script>
+        function increaseQuantity(btn) {
+            const input = document.getElementById(btn.name);
+            input.value = parseInt(input.value) + 1;
+        }
+        
+        function decreaseQuantity(btn) {
+            const input = document.getElementById(btn.name);
+            const newValue = parseInt(input.value) - 1;
+            input.value = newValue >= 0 ? newValue : 0;
+        }
+    </script>
+</body>
+</html>
