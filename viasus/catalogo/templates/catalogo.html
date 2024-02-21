@@ -28,12 +28,13 @@
                         <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
                         <input name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
                         <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                        <a href="#" name="{{ product.codigo }}" type="button" class="btn btn-primary">Agregar al carro</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
         <label for="Enviar"></label>
-        <input class="btn btn-primary" type="submit" value="Enviar Pedido" />
+        <input class="btn btn-primary" type="submit" value="Ir al carro" />
     </form>
     <!-- Repeat the above structure for other products -->
 
