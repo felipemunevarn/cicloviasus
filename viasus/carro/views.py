@@ -4,9 +4,10 @@ from catalogo.models import Producto
 
 # Create your views here.
 
-def agregar_producto(request, prodcuto_id):
+def agregar_producto(request, producto_id):
     carro = Carro(request)
-    producto = Producto.obejcts.get(id = prodcuto_id)
+    print(producto_id)
+    producto = Producto.objects.get(id = producto_id)
     carro.agregar(producto=producto)
 
     return redirect("catalogo")

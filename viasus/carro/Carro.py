@@ -6,8 +6,8 @@ class Carro():
 
         if not carro:
             carro = self.session["carro"] = {}
-        else:
-            self.carro = carro
+        
+        self.carro = carro
     
     def guardar_carro(self):
         self.session["carro"] = self.carro
@@ -15,7 +15,8 @@ class Carro():
             
     def agregar(self, producto):
         if (producto.id not in self.carro.keys()):
-            self.carro[producto.id] = producto.cantidad
+            print(self.request.GET)
+            # self.carro[producto.id] = producto.cantidad
         else:
             for key, value in self.carro.items():
                 if key == producto.id:
