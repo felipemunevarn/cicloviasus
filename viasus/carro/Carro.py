@@ -14,12 +14,24 @@ class Carro():
         self.session.modified = True
             
     def agregar(self, producto):
-        if (producto.id not in self.carro.keys()):
-            print(self.request.GET)
-            # self.carro[producto.id] = producto.cantidad
+        cantidad = int(self.request.POST.get(producto.codigo))
+        if (str(producto.id) not in self.carro.keys()):
+            self.carro[str(producto.id)] = {
+                "imagen": producto.imagen,
+                "codigo": producto.codigo,
+                "titulo": producto.titulo,
+                "cantidad": cantidad,
+                "precio": producto.precio
+            }
         else:
             for key, value in self.carro.items():
-                if key == producto.id:
-                    value += producto.cantidad
-                break
+                if (key == str(producto.id)):
+                    self.carro[key]["cantidad"] = int(value) + cantidad
+                    break
         self.guardar_carro()
+        print(self.carro)
+
+    def limpiar_carro(self):
+        self.session["carro"] = {}
+        self.session.modified = True
+
