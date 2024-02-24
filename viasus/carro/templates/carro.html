@@ -18,7 +18,7 @@
     
     {% if request.session.carro.items %}
     <div class="container-fluid">
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">id</th>
@@ -34,10 +34,12 @@
                     <td>{{ value.codigo }}</td>
                     <td>{{ value.titulo }}</td>
                     <td>
-                        <button>+</button>
+                        <form action="{% url 'carro:restar' key %}" method="get">
+                            <input name="{{ value.codigo }}" type="submit" class="btn btn-warning" value="-"/>
+                        </form>
                         <input class="form-control" value="{{ value.cantidad }}" />
-                        <button>-</button>
-                        <button>X</button>
+                        <a type="button" class="btn btn-warning" href="{% url 'carro:eliminar' key %}">+</a>
+                        <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}">X</a>
                     </td>
                 </tr>
                 {% endfor %}

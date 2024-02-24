@@ -29,7 +29,28 @@ class Carro():
                     value["cantidad"] += cantidad
                     break
         self.guardar_carro()
-        print(self.carro)
+
+    def restar(self, producto):
+        cantidad = int(self.request.GET.get(producto.codigo))
+        # if (str(producto.id) not in self.carro.keys()):
+        #     self.carro[str(producto.id)] = {
+        #         "imagen": producto.imagen,
+        #         "codigo": producto.codigo,
+        #         "titulo": producto.titulo,
+        #         "cantidad": cantidad,
+        #         "precio": producto.precio
+        #     }
+        # else:
+        for key, value in self.carro.items():
+            if (key == str(producto.id)):
+                value["cantidad"] = cantidad
+                break
+        self.guardar_carro()
+    
+    def eliminar(self, producto_id):
+        if str(producto_id) in self.carro:
+            del self.carro[str(producto_id)]
+            self.guardar_carro()
 
     def limpiar_carro(self):
         self.session["carro"] = {}
