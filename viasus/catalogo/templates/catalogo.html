@@ -11,36 +11,32 @@
 <body>
     <form action="" method="get">
         <label for="Buscar"></label>
-        <input type="text" name="busqueda" id="busqueda"/>
+        <input class="form-control" type="text" name="busqueda" id="busqueda"/>
         <input class="btn btn-secondary" type="submit" value="Buscar" />
     </form>
     <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
-    <!-- <form action="pedidoprueba" method="post"> -->
-        <!-- {% csrf_token %} -->
-        <div class="container-fluid">
-            {% for product in result %}
-                <div class="card" style="width:300px">
-                    <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-text">{{ product.titulo }}</p>
-                        <span class="product-price">$ {{ product.precio }}</span>
-                    </div>
-                    <div name="div_de_cant">
-                        <form action="{% url 'carro:agregar' product.id %}" method="post">
-                            {% csrf_token %}
-                            <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
-                            <input name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
-                            <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
-                            <input type="submit" class="btn btn-primary" value="Agregar al carro" />
-                        </form>
-                    </div>
-                </div>
-            {% endfor %}
+
+    {% for product in result %}
+        <div class="card" style="width:300px">
+            <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
+            <div class="card-body">
+                <p class="card-text">{{ product.titulo }}</p>
+                <span class="product-price">$ {{ product.precio }}</span>
+            </div>
+            <div name="div_de_cant">
+                <form action="{% url 'carro:agregar' product.id %}" method="post">
+                    {% csrf_token %}
+                    <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
+                    <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
+                    <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                    <input type="submit" class="btn btn-primary" value="Agregar al carro" />
+                </form>
+            </div>
         </div>
-        <!-- <label for="Enviar"></label> -->
-        <!-- <input class="btn btn-primary" type="submit" value="Ir al carro" /> -->
-    <!-- </form> -->
-    <!-- Repeat the above structure for other products -->
+    {% endfor %}
+   
+
+    <a href="{% url 'carro:carro' %}" type="button" class="btn btn-info">Ir al carro</a>
 
     <script>
         function increaseQuantity(btn) {

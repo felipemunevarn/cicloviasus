@@ -26,7 +26,7 @@ class Carro():
         else:
             for key, value in self.carro.items():
                 if (key == str(producto.id)):
-                    self.carro[key]["cantidad"] = int(value) + cantidad
+                    value["cantidad"] += cantidad
                     break
         self.guardar_carro()
         print(self.carro)

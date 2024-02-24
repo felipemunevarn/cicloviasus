@@ -4,6 +4,7 @@ from . import views
 app_name = "carro" 
 
 urlpatterns = [
+    path("", views.carro, name="carro"),
     path("agregar/<int:producto_id>/", views.agregar_producto, name="agregar"),
     path("limpiar/", views.limpiar_carro, name="limpiar"),
 ]
