@@ -16,9 +16,9 @@
     </form>
     <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
     <div class="container">
-        <!-- <div class="row"> -->
+        <div class="row">
         {% for product in result %}
-            <div class="card" style="width: 180px">
+            <div class="card" style="width: 220px">
                 <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
                 <div class="card-body">
                     <p class="card-text">{{ product.titulo }}</p>
@@ -32,11 +32,12 @@
                         <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
                         <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
                         <input type="submit" class="btn btn-primary" value="Agregar al carro" />
+                        </div>
                     </form>
                 </div>
             </div>
         {% endfor %}
-        <!-- </div> -->
+        </div>
     </div>
     <a href="{% url 'carro:carro' %}" type="button" class="btn btn-info">Ir al carro</a>
 

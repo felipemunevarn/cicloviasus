@@ -10,7 +10,7 @@
 </head>
 <body>
     <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
-    
+    <a href="{% url 'catalogo' %}" class="btn btn-secondary" type="button">Catalogo</a>
     {% if request.session.carro.items %}
     <div class="container-fluid">
         <table class="table table-striped">
