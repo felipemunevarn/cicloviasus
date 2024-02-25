@@ -9,11 +9,6 @@
 
 </head>
 <body>
-    <!-- <form action="" method="get">
-        <label for="Buscar"></label>
-        <input class="form-control" type="text" name="busqueda" id="busqueda"/>
-        <input class="btn btn-secondary" type="submit" value="Buscar" />
-    </form> -->
     <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
     
     {% if request.session.carro.items %}
@@ -51,6 +46,6 @@
     {% endif %}
 
     <a href="#" type="button" class="btn btn-info">Confirmar</a>
-
+    <p>Total: ${{ total }} </p>
 </body>
 </html>
