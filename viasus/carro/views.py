@@ -20,6 +20,12 @@ def restar_unidad(request, producto_id):
     carro.restar(producto=producto)
     return redirect("carro:carro")
 
+def sumar_unidad(request, producto_id):
+    carro = Carro(request)
+    producto = Producto.objects.get(id = producto_id)
+    carro.sumar(producto=producto)
+    return redirect("carro:carro")
+
 def elminiar_producto(request, producto_id):
     carro = Carro(request)
     carro.eliminar(producto_id=producto_id)

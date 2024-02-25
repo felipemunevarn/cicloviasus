@@ -31,19 +31,17 @@ class Carro():
         self.guardar_carro()
 
     def restar(self, producto):
-        cantidad = int(self.request.GET.get(producto.codigo))
-        # if (str(producto.id) not in self.carro.keys()):
-        #     self.carro[str(producto.id)] = {
-        #         "imagen": producto.imagen,
-        #         "codigo": producto.codigo,
-        #         "titulo": producto.titulo,
-        #         "cantidad": cantidad,
-        #         "precio": producto.precio
-        #     }
-        # else:
+        if (self.carro[str(producto.id)]["cantidad"] is not 0):
+            for key, value in self.carro.items():
+                if (key == str(producto.id)):
+                    value["cantidad"] -= 1
+                    break
+        self.guardar_carro()
+
+    def sumar(self, producto):
         for key, value in self.carro.items():
             if (key == str(producto.id)):
-                value["cantidad"] = cantidad
+                value["cantidad"] += 1
                 break
         self.guardar_carro()
     

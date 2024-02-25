@@ -34,11 +34,11 @@
                     <td>{{ value.codigo }}</td>
                     <td>{{ value.titulo }}</td>
                     <td>
-                        <form action="{% url 'carro:restar' key %}" method="get">
-                            <input name="{{ value.codigo }}" type="submit" class="btn btn-warning" value="-"/>
+                        <form method="get">
+                            <button formaction="{% url 'carro:restar' key %}" class="btn btn-warning">-</button>
+                            <input name="{{ value.codigo }}" class="form-control" value="{{ value.cantidad }}" type="number" min="0"/>
+                            <button formaction="{% url 'carro:sumar' key %}" class="btn btn-warning">+</button>
                         </form>
-                        <input class="form-control" value="{{ value.cantidad }}" />
-                        <a type="button" class="btn btn-warning" href="{% url 'carro:eliminar' key %}">+</a>
                         <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}">X</a>
                     </td>
                 </tr>
@@ -52,17 +52,5 @@
 
     <a href="#" type="button" class="btn btn-info">Confirmar</a>
 
-    <script>
-        function increaseQuantity(btn) {
-            const input = document.getElementById(btn.name);
-            input.value = parseInt(input.value) + 1;
-        }
-        
-        function decreaseQuantity(btn) {
-            const input = document.getElementById(btn.name);
-            const newValue = parseInt(input.value) - 1;
-            input.value = newValue >= 0 ? newValue : 0;
-        }
-    </script>
 </body>
 </html>
