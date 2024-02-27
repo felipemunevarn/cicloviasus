@@ -12,7 +12,7 @@ def agregar_producto(request, producto_id):
     carro = Carro(request)
     producto = Producto.objects.get(id = producto_id)
     carro.agregar(producto=producto)
-    return redirect("catalogo")
+    return redirect("catalogue")
 
 def restar_unidad(request, producto_id):
     carro = Carro(request)
@@ -34,4 +34,4 @@ def elminiar_producto(request, producto_id):
 def limpiar_carro(request):
     carro = Carro(request)
     carro.limpiar_carro()
-    return redirect("catalogo")
+    return redirect("catalogue")

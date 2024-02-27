@@ -1,0 +1,48 @@
+{% extends "header_footer.html" %}
+{% block content %}
+    <form action="" method="get">
+        <input class="form-control" type="text" name="busqueda" id="busqueda"/>
+        <input class="btn btn-secondary" type="submit" value="Buscar" />
+    </form>
+    <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
+    <div class="container">
+        <div class="row">
+        {% for product in result %}
+            {% if product.activo == True %}
+                <div class="card" style="width: 220px">
+                    <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text">{{ product.titulo }}</p>
+                        <span class="product-price">$ {{ product.precio }}</span>
+                    </div>
+                    <div name="div_de_cant" class="row">
+                        <form action="{% url 'carro:agregar' product.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="container">
+                            <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
+                            <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
+                            <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                            <input type="submit" class="btn btn-primary" value="Agregar al carro" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <a href="{% url 'carro:carro' %}" type="button" class="btn btn-info">Ir al carro</a>
+    
+    <script>
+        function increaseQuantity(btn) {
+            const input = document.getElementById(btn.name);
+            input.value = parseInt(input.value) + 1;
+        }
+        
+        function decreaseQuantity(btn) {
+            const input = document.getElementById(btn.name);
+            const newValue = parseInt(input.value) - 1;
+            input.value = newValue >= 0 ? newValue : 0;
+        }
+    </script>
+{% endblock %}

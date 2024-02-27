@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalogo.apps.CatalogoConfig',
     'carro.apps.CarroConfig',
+    'authentication.apps.AuthenticationConfig',
+    'viasus',
 ]
 
 MIDDLEWARE = [
