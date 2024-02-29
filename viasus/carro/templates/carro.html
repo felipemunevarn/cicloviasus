@@ -41,8 +41,8 @@
         <label for="browser">Choose your browser from the list:</label>
         <input list="browsers" name="browser" id="browser">
             <datalist id="browsers">
-                {% for client in clients %}
-                <option value={{client.nombre}}>
+                {% for customer in customers %}
+                <option value={{customer.nombre}}>
                 {% endfor %}
             </datalist>
         
