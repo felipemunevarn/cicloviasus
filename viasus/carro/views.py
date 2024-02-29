@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from .Carro import Carro
 from catalogo.models import Producto
+from carro.models import Cliente
 
 # Create your views here.
 
 def carro(request):
     carro = Carro(request)
-    return render(request, "carro.html")
+    clients = Cliente.objects.all()
+    return render(request, "carro.html", {'clients':clients})
 
 def agregar_producto(request, producto_id):
     carro = Carro(request)

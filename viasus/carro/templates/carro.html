@@ -41,13 +41,10 @@
         <label for="browser">Choose your browser from the list:</label>
         <input list="browsers" name="browser" id="browser">
             <datalist id="browsers">
-                <option value="Edge">
-                <option value="Firefox">
-                <option value="Chrome">
-                <option value="Opera">
-                <option value="Safari">
+                {% for client in clients %}
+                <option value={{client.nombre}}>
+                {% endfor %}
             </datalist>
-        <!-- <input type="submit"> -->
         
         {% if request.user.is_authenticated %}
         <button type="submit" class="btn btn-info">Confirmar</button>

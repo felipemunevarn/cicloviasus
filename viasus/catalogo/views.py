@@ -24,4 +24,5 @@ def index(request):
     print(request.session.get("carro"))
     print(total(request))
     print(request.user.id)
+    print(request.GET.get("browser"))
     return HttpResponse(f'''Hola, saludos!!!''')
