@@ -8,7 +8,6 @@ from carro.models import Cliente
 def carro(request):
     carro = Carro(request)
     customers = Cliente.objects.all()
-    # return render(request, "carro.html")
     return render(request, "carro.html", {'customers':customers})
 
 def agregar_producto(request, producto_id):
