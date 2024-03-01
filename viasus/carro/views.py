@@ -1,7 +1,10 @@
+import datetime
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .Carro import Carro
 from catalogo.models import Producto
-from carro.models import Cliente
+from carro.models import Cliente, Pedido, PedidoProducto
+from carro.context_processor import total
 
 # Create your views here.
 
@@ -37,3 +40,32 @@ def limpiar_carro(request):
     carro = Carro(request)
     carro.limpiar_carro()
     return redirect("catalogue")
+
+def checkout(request):
+    customer = find_customer(request)
+    date = datetime.date.today().isoformat()
+    total_db = total(request)["total"]
+    user = request.user
+    pedido = Pedido(cliente=customer, fecha=date, total=total_db, user=user)
+    pedido.save()
+    for item in request.session.get("carro"):
+        producto = Producto.objects.get(pk=item)
+        cantidad = request.session.get("carro")[item]["cantidad"]
+        pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
+        pedido_producto.save()
+    return HttpResponse(f'''Pedido guardado exitosamente''')
+
+def find_customer(request):
+    chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
+    if not chosen_customer:
+        new_customer = Cliente()
+        new_customer.nombre = request.POST.get("customer")
+        if (new_customer.nombre == ""):
+            print("ERROR")
+            # CORREGIR POSIBLE ERROR
+        else:
+            new_customer.save()
+            return(chosen_customer)
+    else:
+        chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
+    return(chosen_customer[0])

@@ -37,11 +37,11 @@
     {% endif %}
 
     <p>Cliente: </p>
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'carro:checkout' %}" method="post">
         {% csrf_token %}
-        <label for="browser">Choose your browser from the list:</label>
-        <input list="browsers" name="browser" id="browser" multiple style="width: 500px;">
-            <datalist id="browsers">
+        <label for="customer">Choose your curtomer from the list:</label>
+        <input list="customers" name="customer" id="customer" multiple style="width: 500px;">
+            <datalist id="customers">
                 {% for customer in customers %}
                 <option value="{{customer.nombre}}">
                 {% endfor %}

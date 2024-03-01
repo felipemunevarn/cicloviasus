@@ -17,23 +17,16 @@ def catalogue(request):
 def buscar(request):
     return redirect(request, 'catalogue')
 
-def pedidoprueba(request):
-    return HttpResponse(f'''Del articulo 0010013000011 se pidio {request.POST.get('0010013000011', 0)} unidad(es)\n\n\t
-                        Del articulo 0010046000012 se pidio {request.POST.get('0010046000012', "nada")} unidad(es)                      
-                        ''')
 def index(request):
-    print(request.session.get("carro"))
-    print(total(request))
-    print(request.user.id)
-    chosen_customer = Cliente.objects.filter(nombre=request.POST.get("browser"))
-    if not chosen_customer:
-        new_customer = Cliente()
-        new_customer.nombre = request.POST.get("browser")
-        new_customer.direccion = "some"
-        new_customer.telefono = "some"
-        new_customer.correo = "some"
-        print(new_customer)
-        new_customer.save()
-    else:
-        print(chosen_customer.values()[0]["id"])
+    # print(request.session.get("carro"))
+    # print(total(request))
+    # print(request.user.id)
+    # chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
+    # if not chosen_customer:
+    #     new_customer = Cliente()
+    #     new_customer.nombre = request.POST.get("customer")
+    #     print(new_customer)
+    #     new_customer.save()
+    # else:
+    #     print(chosen_customer.values()[0]["id"])
     return HttpResponse(f'''Hola, saludos!!!''')
