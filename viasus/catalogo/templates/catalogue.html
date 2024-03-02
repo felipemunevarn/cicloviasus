@@ -1,48 +1,58 @@
 {% extends "header_footer.html" %}
 {% block content %}
-    <form action="" method="get">
-        <input class="form-control" type="text" name="busqueda" id="busqueda"/>
-        <input class="btn btn-secondary" type="submit" value="Buscar" />
-    </form>
-    <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
-    <div class="container">
-        <div class="row">
+<form action="" method="get">
+    <input class="form-control" type="text" name="busqueda" id="busqueda"/>
+    <input class="btn btn-secondary" type="submit" value="Buscar" />
+</form>
+<a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
+<div class="container mt-5">
+    <div class="row">
         {% for product in result %}
             {% if product.activo == True %}
-                <div class="card" style="width: 220px">
-                    <img src="{{ product.imagen }}" alt="Product 1" class="card-img-top">
+            <!-- Tarjeta de producto -->
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ product.imagen }}" class="card-img-top" alt="Producto">
                     <div class="card-body">
+                        <!-- <h5 class="card-title">{{ product.titulo }}</h5> -->
                         <p class="card-text">{{ product.titulo }}</p>
-                        <span class="product-price">$ {{ product.precio }}</span>
-                    </div>
-                    <div name="div_de_cant" class="row">
+                        <p class="card-text">Precio: $ {{ product.precio }}</p>
                         <form action="{% url 'carro:agregar' product.id %}" method="post">
                             {% csrf_token %}
-                            <div class="container">
-                            <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
-                            <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
-                            <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
-                            <input type="submit" class="btn btn-primary" value="Agregar al carro" />
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
+                                    <!-- <button class="btn btn-outline-secondary" type="button" id="decrease">-</button> -->
+                                </div>
+                                <!-- <input type="number" class="form-control" value="1" min="1" id="quantity"> -->
+                                <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
+                                <div class="input-group-append">
+                                    <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                                    <!-- <button class="btn btn-outline-secondary" type="button" id="increase">+</button> -->
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Agregar al carro" />
                             </div>
                         </form>
                     </div>
                 </div>
-                {% endif %}
+            </div>            
+            <!-- Puedes agregar más tarjetas aquí -->
+            {% endif %}
         {% endfor %}
-        </div>
     </div>
     <a href="{% url 'carro:carro' %}" type="button" class="btn btn-info">Ir al carro</a>
+</div>                
+   
+<script>
+    function increaseQuantity(btn) {
+        const input = document.getElementById(btn.name);
+        input.value = parseInt(input.value) + 1;
+    }
     
-    <script>
-        function increaseQuantity(btn) {
-            const input = document.getElementById(btn.name);
-            input.value = parseInt(input.value) + 1;
-        }
-        
-        function decreaseQuantity(btn) {
-            const input = document.getElementById(btn.name);
-            const newValue = parseInt(input.value) - 1;
-            input.value = newValue >= 0 ? newValue : 0;
-        }
-    </script>
+    function decreaseQuantity(btn) {
+        const input = document.getElementById(btn.name);
+        const newValue = parseInt(input.value) - 1;
+        input.value = newValue >= 0 ? newValue : 0;
+    }
+</script>
 {% endblock %}
