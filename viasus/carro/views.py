@@ -1,10 +1,12 @@
 import datetime
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .Carro import Carro
 from catalogo.models import Producto
 from carro.models import Cliente, Pedido, PedidoProducto
 from carro.context_processor import total
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -48,11 +50,20 @@ def checkout(request):
     user = request.user
     pedido = Pedido(cliente=customer, fecha=date, total=total_db, user=user)
     pedido.save()
+    # message = ""
+    message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
+    message += f'Total: ${total_db}\n\n'
+    message += f'Codigo,Nombre,Cantidad\n'
     for item in request.session.get("carro"):
         producto = Producto.objects.get(pk=item)
         cantidad = request.session.get("carro")[item]["cantidad"]
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
+        message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
+    subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
+    email_from = settings.EMAIL_HOST_USER
+    recipient = ["felipemunevarn@gmail.com"]
+    send_mail(subject, message, email_from, recipient)
     return HttpResponse(f'''Pedido guardado exitosamente''')
 
 def find_customer(request):

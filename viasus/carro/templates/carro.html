@@ -1,7 +1,6 @@
 {% extends "header_footer.html" %}
 {% block content %}
     <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
-    <a href="{% url 'catalogue' %}" class="btn btn-secondary" type="button">Catalogo</a>
     {% if request.session.carro.items %}
     <div class="container-fluid">
         <table class="table table-striped">
@@ -20,12 +19,24 @@
                     <td>{{ value.codigo }}</td>
                     <td>{{ value.titulo }}</td>
                     <td>
-                        <form method="get">
-                            <button formaction="{% url 'carro:restar' key %}" class="btn btn-warning">-</button>
-                            <input name="{{ value.codigo }}" class="form-control" value="{{ value.cantidad }}" type="number" min="0"/>
-                            <button formaction="{% url 'carro:sumar' key %}" class="btn btn-warning">+</button>
-                        </form>
-                        <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}">X</a>
+                        <div class="container">
+                        <div class="row">
+                            <form method="get" class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button formaction="{% url 'carro:restar' key %}" class="btn btn-warning">-</button>
+                                    </div>
+                                    <input name="{{ value.codigo }}" class="form-control" value="{{ value.cantidad }}" type="number" min="0"/>
+                                    <div class="input-group-append">
+                                        <button formaction="{% url 'carro:sumar' key %}" class="btn btn-warning">+</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="col">
+                                <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}">X</a>
+                            </div>
+                        </div>
+                        </div>
                     </td>
                 </tr>
                 {% endfor %}
@@ -36,10 +47,9 @@
         <p>No hay nada en el carro</p>
     {% endif %}
 
-    <p>Cliente: </p>
     <form action="{% url 'carro:checkout' %}" method="post">
         {% csrf_token %}
-        <label for="customer">Choose your curtomer from the list:</label>
+        <label for="customer">Elija el cliente de la lista:</label>
         <input list="customers" name="customer" id="customer" multiple style="width: 500px;">
             <datalist id="customers">
                 {% for customer in customers %}
@@ -54,4 +64,4 @@
         <a type="button" class="btn disabled">Confirmar</a>
         {% endif %}
     </form>
-    {% endblock %}
+{% endblock %}

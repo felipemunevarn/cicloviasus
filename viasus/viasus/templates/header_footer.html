@@ -7,14 +7,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <style></style>
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <!-- <link rel="icon" href="./favicon.png"> -->
 </head>
 <header>
     {% load static %}
     <h1 class="text-dark text-center">Cicloviasus</h1>
-    <!-- aca inicia copilot -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <div class="row justify-content-end">
+            {% if user.is_authenticated %}
+            <h5 class="col-2">Hola {{ user.username }}</h5>
+            <a href="{% url 'close' %}" class="col-2">Cerrar Sesion</a>
+            {% else %}
+            <!-- <p>No autenticado</p> -->
+            <a href="{% url 'signin' %}" class="col-2">Registrarse</a>
+            <a href="{% url 'login' %}" class="col-2">Ingresar</a>
+            {% endif %}
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-md bg-body-tertiary">
         <div class="container-fluid">
             <img src="{% static 'favicon.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,34 +34,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Inicio</a>
+                    <a class="nav-link" href="{% url 'home' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Catalogo</a>
+                    <a class="nav-link" href="{% url 'catalogue' %}">Catalogo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Carro</a>
+                    <a class="nav-link" href="{% url 'carro:carro' %}">Carro</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Acerca de</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" role="search" method="get" action="">
+                <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="search" name="busqueda">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
             </div>
         </div>
     </nav>
-    <!-- aca termina copilot -->
-    <div class="text-end">
-    {% if user.is_authenticated %}
-        <p>Hola {{ user.username }}</p> &nbsp; &nbsp; <a href="{% url 'close' %}">Cerrar Sesion</a>
-    {% else %}
-        <p>No autenticado</p>
-        <a href="{% url 'signin' %}">Registrarse</a> &nbsp; &nbsp; <a href="{% url 'login' %}">Ingresar</a>
-    {% endif %}
-    </div>
 </header>
 <body class="ms-2 me-2"></body>
     {% block content %}
