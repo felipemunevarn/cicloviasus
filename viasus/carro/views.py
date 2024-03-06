@@ -45,38 +45,35 @@ def limpiar_carro(request):
 
 def checkout(request):
     customer = find_customer(request)
-    date = datetime.date.today().isoformat()
+    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     total_db = total(request)["total"]
     user = request.user
-    pedido = Pedido(cliente=customer, fecha=date, total=total_db, user=user)
+    pedido = Pedido(cliente=customer, total=total_db, user=user, fecha=date)
     pedido.save()
-    # message = ""
-    message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
-    message += f'Total: ${total_db}\n\n'
-    message += f'Codigo,Nombre,Cantidad\n'
-    for item in request.session.get("carro"):
-        producto = Producto.objects.get(pk=item)
-        cantidad = request.session.get("carro")[item]["cantidad"]
-        pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
-        pedido_producto.save()
-        message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
-    subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
-    email_from = settings.EMAIL_HOST_USER
-    recipient = ["felipemunevarn@gmail.com"]
-    send_mail(subject, message, email_from, recipient)
-    return HttpResponse(f'''Pedido guardado exitosamente''')
+    
+    # message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
+    # message += f'Total: ${total_db}\n\n'
+    # message += f'Codigo,Nombre,Cantidad\n'
+    # for item in request.session.get("carro"):
+    #     producto = Producto.objects.get(pk=item)
+    #     cantidad = request.session.get("carro")[item]["cantidad"]
+    #     pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
+    #     pedido_producto.save()
+    #     message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
+    # subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
+    # email_from = settings.EMAIL_HOST_USER
+    # recipient = ["felipemunevarn@gmail.com"]
+    # send_mail(subject, message, email_from, recipient)
+    return render(request, "checkout.html")
 
 def find_customer(request):
     chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
     if not chosen_customer:
-        new_customer = Cliente()
-        new_customer.nombre = request.POST.get("customer")
-        if (new_customer.nombre == ""):
-            print("ERROR")
-            # CORREGIR POSIBLE ERROR
-        else:
-            new_customer.save()
-            return(chosen_customer)
-    else:
-        chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
-    return(chosen_customer[0])
+        chosen_customer = save_new_customer(request)
+    return chosen_customer[0]
+
+def save_new_customer(request):
+    new_customer = Cliente()
+    new_customer.nombre = request.POST.get("customer")
+    new_customer.save()
+    return new_customer

@@ -9,6 +9,7 @@
                 <div class="card">
                     <img src="{{ product.imagen }}" class="card-img-top" alt="Producto">
                     <div class="card-body">
+                        <h5 class="card-title">{{ product.codigo }}</h5>
                         <p class="card-text">{{ product.titulo }}</p>
                         <p class="card-text">Precio: $ {{ product.precio }}</p>
                         <form action="{% url 'carro:agregar' product.id %}" method="post">

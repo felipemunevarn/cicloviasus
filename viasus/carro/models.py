@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from catalogo.models import Producto
+import datetime
 
 # Create your models here.
 
@@ -14,7 +15,7 @@ class Cliente(models.Model):
         return f'Nombre: {self.nombre}'
     
 class Pedido(models.Model):
-    fecha = models.DateField()
+    fecha = models.CharField(max_length=20)
     total = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE) 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE) 
