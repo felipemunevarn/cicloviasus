@@ -44,19 +44,20 @@
         </table>
     </div>
     {% else %}
-        <p>No hay nada en el carro</p>
+        <h3>No hay nada en el carro</h3>
     {% endif %}
 
     <form action="{% url 'carro:checkout' %}" method="post">
         {% csrf_token %}
         <label for="customer">Elija el cliente de la lista:</label>
         <input list="customers" name="customer" id="customer" multiple style="width: 500px;" required>
-            <datalist id="customers">
-                {% for customer in customers %}
-                <option value="{{customer.nombre}}">
+        <datalist id="customers">
+            {% for customer in customers %}
+            <option value="{{customer.nombre}}">
                 {% endfor %}
             </datalist>
-        
+        <label for="deliveryDate">Fecha de entrega del pedido:</label>
+        <input type="date" name="deliveryDate" name="my-date-input" id="my-date-input">
         {% if request.user.is_authenticated %}
         <button type="submit" class="btn btn-info">Confirmar</button>
         <p>Total: ${{ total }} </p>
@@ -64,4 +65,10 @@
         <a type="button" class="btn disabled">Confirmar</a>
         {% endif %}
     </form>
+    <script>
+        var now = new Date();
+        minDate = now.toISOString().substring(0,10);
+        date = document.getElementById("my-date-input")
+        date.setAttribute("min", minDate)
+    </script>
 {% endblock %}

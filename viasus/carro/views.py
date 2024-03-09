@@ -45,10 +45,10 @@ def limpiar_carro(request):
 
 def checkout(request):
     customer = find_customer(request)
-    date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     total_db = total(request)["total"]
     user = request.user
-    pedido = Pedido(cliente=customer, total=total_db, user=user, fecha=date)
+    pedido = Pedido(cliente=customer, total=total_db, user=user)
     pedido.save()
     
     # message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"

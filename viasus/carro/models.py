@@ -15,10 +15,11 @@ class Cliente(models.Model):
         return f'Nombre: {self.nombre}'
     
 class Pedido(models.Model):
-    fecha = models.CharField(max_length=20)
+    fecha_pedido = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     total = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE) 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE) 
+    fecha_entrega = models.DateField(default=None, blank=True, null=True)
 
 class PedidoProducto(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE) 
