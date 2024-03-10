@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'carro.apps.CarroConfig',
     'authentication.apps.AuthenticationConfig',
     'viasus',
+    'django_cron',
 ]
 
 MIDDLEWARE = [

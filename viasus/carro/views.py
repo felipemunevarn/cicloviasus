@@ -1,6 +1,4 @@
-import datetime
 from django.conf import settings
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .Carro import Carro
 from catalogo.models import Producto
@@ -45,25 +43,12 @@ def limpiar_carro(request):
 
 def checkout(request):
     customer = find_customer(request)
-    # date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     total_db = total(request)["total"]
     user = request.user
-    pedido = Pedido(cliente=customer, total=total_db, user=user)
+    delivery_date = request.POST.get("deliveryDate")
+    pedido = Pedido(cliente=customer, total=total_db, user=user, fecha_entrega=delivery_date)
     pedido.save()
-    
-    # message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
-    # message += f'Total: ${total_db}\n\n'
-    # message += f'Codigo,Nombre,Cantidad\n'
-    # for item in request.session.get("carro"):
-    #     producto = Producto.objects.get(pk=item)
-    #     cantidad = request.session.get("carro")[item]["cantidad"]
-    #     pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
-    #     pedido_producto.save()
-    #     message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
-    # subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
-    # email_from = settings.EMAIL_HOST_USER
-    # recipient = ["felipemunevarn@gmail.com"]
-    # send_mail(subject, message, email_from, recipient)
+    # send_email(request, customer, total_db, pedido)
     return render(request, "checkout.html")
 
 def find_customer(request):
@@ -77,3 +62,18 @@ def save_new_customer(request):
     new_customer.nombre = request.POST.get("customer")
     new_customer.save()
     return new_customer
+
+def send_email(request, customer, total_db, pedido):
+    message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
+    message += f'Total: ${total_db}\n\n'
+    message += f'Codigo,Nombre,Cantidad\n'
+    for item in request.session.get("carro"):
+        producto = Producto.objects.get(pk=item)
+        cantidad = request.session.get("carro")[item]["cantidad"]
+        pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
+        pedido_producto.save()
+        message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
+    subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
+    email_from = settings.EMAIL_HOST_USER
+    recipient = ["felipemunevarn@gmail.com"]
+    send_mail(subject, message, email_from, recipient)
