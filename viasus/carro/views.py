@@ -46,8 +46,16 @@ def checkout(request):
     total_db = total(request)["total"]
     user = request.user
     delivery_date = request.POST.get("deliveryDate")
-    pedido = Pedido(cliente=customer, total=total_db, user=user, fecha_entrega=delivery_date)
+    if (delivery_date == ''):
+        pedido = Pedido(cliente=customer, total=total_db, user=user)
+    else:
+        pedido = Pedido(cliente=customer, total=total_db, user=user, fecha_entrega=delivery_date)
     pedido.save()
+    for item in request.session.get("carro"):
+        producto = Producto.objects.get(pk=item)
+        cantidad = request.session.get("carro")[item]["cantidad"]
+        pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
+        pedido_producto.save()
     # send_email(request, customer, total_db, pedido)
     return render(request, "checkout.html")
 

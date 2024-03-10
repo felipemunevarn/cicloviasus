@@ -54,6 +54,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CRON_CLASSES = [
+    "viasus.MyCronJob.MyCronJob",
+]
+
 ROOT_URLCONF = 'viasus.urls'
 
 TEMPLATES = [
