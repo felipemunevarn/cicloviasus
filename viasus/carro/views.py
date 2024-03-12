@@ -1,10 +1,10 @@
-from django.conf import settings
 from django.shortcuts import render, redirect
+from carro.create_excel import create_excel
 from .Carro import Carro
 from catalogo.models import Producto
 from carro.models import Cliente, Pedido, PedidoProducto
 from carro.context_processor import total
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -56,32 +56,28 @@ def checkout(request):
         cantidad = request.session.get("carro")[item]["cantidad"]
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
-    # send_email(request, customer, total_db, pedido)
+    create_excel(request)
+    send_mail_excel(request, customer, pedido)
     return render(request, "checkout.html")
 
 def find_customer(request):
     chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
     if not chosen_customer:
-        chosen_customer = save_new_customer(request)
+        save_new_customer(request)
+        chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
     return chosen_customer[0]
 
 def save_new_customer(request):
     new_customer = Cliente()
     new_customer.nombre = request.POST.get("customer")
     new_customer.save()
-    return new_customer
 
-def send_email(request, customer, total_db, pedido):
-    message = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}\n"
-    message += f'Total: ${total_db}\n\n'
-    message += f'Codigo,Nombre,Cantidad\n'
-    for item in request.session.get("carro"):
-        producto = Producto.objects.get(pk=item)
-        cantidad = request.session.get("carro")[item]["cantidad"]
-        pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
-        pedido_producto.save()
-        message += f'{producto.codigo},{producto.titulo},{cantidad}\n'
-    subject = f"Venta del vendedor: {request.user.username} al cliente: {customer.nombre}"
-    email_from = settings.EMAIL_HOST_USER
-    recipient = ["felipemunevarn@gmail.com"]
-    send_mail(subject, message, email_from, recipient)
+def send_mail_excel(request, customer, pedido):
+    email = EmailMessage(
+        f"Pedido # {pedido.id} con fecha {pedido.fecha_pedido.now().date()}",
+        f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
+        "afmunene@gmail.com",
+        ["felipemunevarn@gmail.com"]
+    )
+    email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
+    email.send(fail_silently=False)

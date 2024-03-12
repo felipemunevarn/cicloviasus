@@ -3,7 +3,7 @@ from carro.models import Pedido, PedidoProducto
 from catalogo.models import Producto
 
 class MyCronJob(CronJobBase):
-    RUN_AT_TIMES = ['02:28']
+    RUN_AT_TIMES = ['19:40']
 
     schedule = Schedule(run_at_times=RUN_AT_TIMES)
 
