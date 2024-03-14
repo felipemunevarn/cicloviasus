@@ -1,6 +1,0 @@
-select titulo, sum(cantidad) from (
-    select fecha, titulo, cantidad from carro_pedido as cpe
-    inner join carro_pedidoproducto as cpp ON cpe.id=cpp.pedido_id
-    inner join catalogo_producto as cpr ON cpp.producto_id=cpr.id
-    where cpe.fecha like '2024-03-05%')
-group by titulo;

@@ -56,8 +56,8 @@ def checkout(request):
         cantidad = request.session.get("carro")[item]["cantidad"]
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
-    create_excel(request)
-    send_mail_excel(request, customer, pedido)
+    create_excel(request, daily_cart="")
+    send_mail_excel(request, customer, pedido, False, "")
     return render(request, "checkout.html")
 
 def find_customer(request):
@@ -72,12 +72,20 @@ def save_new_customer(request):
     new_customer.nombre = request.POST.get("customer")
     new_customer.save()
 
-def send_mail_excel(request, customer, pedido):
-    email = EmailMessage(
-        f"Pedido # {pedido.id} con fecha {pedido.fecha_pedido.now().date()}",
-        f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
-        "afmunene@gmail.com",
-        ["felipemunevarn@gmail.com"]
-    )
+def send_mail_excel(request, customer, pedido, daily, today):
+    if (daily == False):
+        email = EmailMessage(
+            f"Pedido # {pedido.id} con fecha {pedido.fecha_pedido.now().date()}",
+            f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
+            "afmunene@gmail.com",
+            ["felipemunevarn@gmail.com"]
+        )
+    else:
+        email = EmailMessage(
+            f"Resumen del dia con fecha {today}",
+            f"En el adjunto el resumen de todas las ventas al cierre del dia {today}",
+            "afmunene@gmail.com",
+            ["felipemunevarn@gmail.com"]
+        )
     email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
     email.send(fail_silently=False)
