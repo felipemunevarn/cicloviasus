@@ -4,24 +4,24 @@
     <div class="row">
         {% for product in result %}
             {% if product.activo == True %}
-            <div class="col-lg-4 mb-4 d-flex">
+            <div class="col-lg-2 mb-2 d-flex">
                 <div class="card">
                     <img src="{{ product.imagen }}" class="card-img-top" alt="Producto">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.codigo }}</h5>
                         <p class="card-text">{{ product.titulo }}</p>
                         <p class="card-text">Precio: $ {{ product.precio }}</p>
-                        <form action="{% url 'carro:agregar' product.id %}" method="post">
+                        <form action="{% url 'carro:agregar' product.id %}" class="container" method="post">
                             {% csrf_token %}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
+                            <div class="input-group row">
+                                <div class="input-group-prepend col">
                                     <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
                                 </div>
-                                <input class="form-control" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
-                                <div class="input-group-append">
+                                <input class="form-control col" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
+                                <div class="input-group-append col">
                                     <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary col">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
                                     </svg>

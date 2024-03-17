@@ -4,4 +4,4 @@ def total(request):
         if ("carro" in request.session and request.session["carro"] != {}):
             for key, value in request.session["carro"].items():
                 total += float(value["precio"]) * value["cantidad"]
-    return {"total": total}
+    return {"total": int(total)}

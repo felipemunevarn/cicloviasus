@@ -1,8 +1,8 @@
 {% extends "header_footer.html" %}
 {% block content %}
-    <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary" type="button">Limpiar carro</a>
+    <a href="{% url 'carro:limpiar' %}" class="btn btn-secondary pt-5" type="button">Limpiar carro</a>
     {% if request.session.carro.items %}
-    <div class="container-fluid">
+    <div class="container">
         <table class="table table-striped">
             <thead>
                 <tr>

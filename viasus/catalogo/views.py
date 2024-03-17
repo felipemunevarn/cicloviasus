@@ -10,10 +10,10 @@ def catalogue(request):
         result = Producto.objects.all()
     else:
         result = Producto.objects.filter(titulo__contains=request.GET.get('busqueda', ''))
+    for product in result:
+        product.precio = int(product.precio)
     return render(request, "catalogue.html", {"result": result})
 
 def buscar(request):
     return redirect(request, 'catalogue')
 
-def index(request):
-    return HttpResponse(f'''Hola, saludos!!!''')
