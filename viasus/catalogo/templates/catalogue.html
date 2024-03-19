@@ -15,13 +15,13 @@
                             {% csrf_token %}
                             <div class="input-group row">
                                 <div class="input-group-prepend col">
-                                    <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)">-</button>
+                                    <button name="{{ product.codigo }}" type="button" class="btn btn-danger" onclick="decreaseQuantity(this)" title="Restar">-</button>
                                 </div>
                                 <input class="form-control col" name="{{ product.codigo }}" id="{{ product.codigo }}" type="number" value="0" min="0">
                                 <div class="input-group-append col">
-                                    <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)">+</button>
+                                    <button name="{{ product.codigo }}" type="button" class="btn btn-success" onclick="increaseQuantity(this)" title="Sumar">+</button>
                                 </div>
-                                <button type="submit" class="btn btn-primary col">
+                                <button type="submit" class="btn btn-primary col" title="Agregar al carro">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
                                     </svg>

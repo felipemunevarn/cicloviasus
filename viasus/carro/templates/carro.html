@@ -24,16 +24,16 @@
                             <form method="get" class="col">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <button formaction="{% url 'carro:restar' key %}" class="btn btn-warning">-</button>
+                                        <button formaction="{% url 'carro:restar' key %}" class="btn btn-warning" title="Restar">-</button>
                                     </div>
                                     <input name="{{ value.codigo }}" class="form-control" value="{{ value.cantidad }}" type="number" min="0"/>
                                     <div class="input-group-append">
-                                        <button formaction="{% url 'carro:sumar' key %}" class="btn btn-warning">+</button>
+                                        <button formaction="{% url 'carro:sumar' key %}" class="btn btn-warning" title="Sumar">+</button>
                                     </div>
                                 </div>
                             </form>
                             <div class="col">
-                                <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}">X</a>
+                                <a type="button" class="btn btn-danger" href="{% url 'carro:eliminar' key %}" title="Eliminar">X</a>
                             </div>
                         </div>
                         </div>
