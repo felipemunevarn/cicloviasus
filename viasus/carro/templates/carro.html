@@ -50,7 +50,7 @@
     <form action="{% url 'carro:checkout' %}" method="post">
         {% csrf_token %}
         <label for="customer">Elija el cliente de la lista:</label>
-        <input list="customers" name="customer" id="customer" multiple style="width: 500px;" required>
+        <input list="customers" name="customer" id="customer" multiple required>
         <datalist id="customers">
             {% for customer in customers %}
             <option value="{{customer.nombre}}">
