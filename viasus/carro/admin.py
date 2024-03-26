@@ -8,6 +8,8 @@ class PedidoAdmin(admin.ModelAdmin):
 
 class PedidoProductoAdmin(admin.ModelAdmin):
     list_select_related = ["pedido", "producto"]
+    list_display = ["pedido", "producto", "cantidad"]
+    list_filter = ['pedido']
 
 admin.site.register(Cliente)
 admin.site.register(Pedido, PedidoAdmin)

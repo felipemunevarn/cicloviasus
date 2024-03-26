@@ -20,6 +20,9 @@ class Pedido(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE) 
     fecha_entrega = models.DateField(default=None, blank=True, null=True)
 
+    # def __str__(self):
+    #     return self.objects
+
 class PedidoProducto(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE) 
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
