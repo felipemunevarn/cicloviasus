@@ -58,11 +58,13 @@
             </datalist>
         <label for="deliveryDate">Fecha de entrega del pedido:</label>
         <input type="date" name="deliveryDate" name="my-date-input" id="my-date-input">
+        <label for="comments">Comentarios del pedido:</label>
+        <input name="comments" type="text">
         {% if request.user.is_authenticated %}
-        <button type="submit" class="btn btn-info">Confirmar</button>
-        <p>Total: ${{ total }} </p>
+            <button type="submit" class="btn btn-info">Confirmar</button>
+            <p>Total: ${{ total }} </p>
         {% else %}
-        <a type="button" class="btn disabled">Confirmar</a>
+            <a type="button" class="btn disabled">Confirmar</a>
         {% endif %}
     </form>
     <script>

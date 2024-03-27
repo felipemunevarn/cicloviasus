@@ -69,7 +69,7 @@
                         <h5 class="col-3">Hola {{ user.username }}</h5>
                         <a href="{% url 'close' %}" class="col-3">Cerrar Sesion</a>
                         {% else %}
-                        <a href="{% url 'signin' %}" class="col-3">Registrarse</a>
+                        <!-- <a href="{% url 'signin' %}" class="col-3">Registrarse</a> -->
                         <a href="{% url 'login' %}" class="col-3">Ingresar</a>
                         {% endif %}
                     </div>

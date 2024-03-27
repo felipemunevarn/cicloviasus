@@ -46,10 +46,11 @@ def checkout(request):
     total_db = total(request)["total"]
     user = request.user
     delivery_date = request.POST.get("deliveryDate")
+    comments = request.POST.get("comments")
     if (delivery_date == ''):
-        pedido = Pedido(cliente=customer, total=total_db, user=user)
+        pedido = Pedido(cliente=customer, total=total_db, user=user, comentarios=comments)
     else:
-        pedido = Pedido(cliente=customer, total=total_db, user=user, fecha_entrega=delivery_date)
+        pedido = Pedido(cliente=customer, total=total_db, user=user, comentarios=comments, fecha_entrega=delivery_date)
     pedido.save()
     for item in request.session.get("carro"):
         producto = Producto.objects.get(pk=item)
