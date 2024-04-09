@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalogo.apps.CatalogoConfig',
+    'viasus.catalogo.apps.CatalogoConfig',
     'carro.apps.CarroConfig',
     'authentication.apps.AuthenticationConfig',
     'viasus',
