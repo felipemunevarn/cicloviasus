@@ -91,5 +91,5 @@ def send_mail_excel(request, customer, pedido, daily, today):
             ["felipemunevarn@gmail.com"]
         )
     # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
-    email.attach_file(os.path.join(BASE_DIR, 'report.xls'))
+    email.attach_file(os.path.join(BASE_DIR, 'report.xlsx'))
     email.send(fail_silently=False)
