@@ -5,6 +5,8 @@ from catalogo.models import Producto
 from carro.models import Cliente, Pedido, PedidoProducto
 from carro.context_processor import total
 from django.core.mail import EmailMessage
+from viasus.settings import BASE_DIR
+import os
 
 # Create your views here.
 
@@ -88,5 +90,6 @@ def send_mail_excel(request, customer, pedido, daily, today):
             "afmunene@gmail.com",
             ["felipemunevarn@gmail.com"]
         )
-    email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
+    # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
+    email.attach_file(os.path.join(BASE_DIR, 'report.xls'))
     email.send(fail_silently=False)
