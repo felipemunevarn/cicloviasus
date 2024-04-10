@@ -62,8 +62,8 @@ MIDDLEWARE = [
 #     "viasus.MyCronJob.MyCronJob",
 # ]
 
-# ROOT_URLCONF = 'viasus.urls'
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'viasus.urls'
+# ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
