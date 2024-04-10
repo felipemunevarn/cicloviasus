@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'catalogo',
     'carro.apps.CarroConfig',
     'authentication.apps.AuthenticationConfig',
-    'viasus',
+    # 'viasus',
     'django_cron',
 ]
 
