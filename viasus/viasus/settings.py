@@ -58,11 +58,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CRON_CLASSES = [
-    "viasus.MyCronJob.MyCronJob",
-]
+# CRON_CLASSES = [
+#     "viasus.MyCronJob.MyCronJob",
+# ]
 
-ROOT_URLCONF = 'viasus.urls'
+# ROOT_URLCONF = 'viasus.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -81,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'viasus.wsgi.application'
+# WSGI_APPLICATION = 'viasus.wsgi.application'
 
 
 # Database
