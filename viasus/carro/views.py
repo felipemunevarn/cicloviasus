@@ -81,14 +81,14 @@ def send_mail_excel(request, customer, pedido, daily, today):
             f"Pedido # {pedido.id} con fecha {pedido.fecha_pedido.now().date()}",
             f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
             "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com"]
+            ["felipemunevarn@gmail.com","cicloviasus@gmail.com"]
         )
     else:
         email = EmailMessage(
             f"Resumen del dia con fecha {today}",
             f"En el adjunto el resumen de todas las ventas al cierre del dia {today}",
             "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com"]
+            ["felipemunevarn@gmail.com","cicloviasus@gmail.com"]
         )
     # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
     email.attach_file(os.path.join(BASE_DIR, 'report.xlsx'))
