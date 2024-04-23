@@ -62,6 +62,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">Acerca</a>
                     </li>
+                    {% if request.user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'resume' %}">Resumen diario</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <div class="container-fluid">
                     <div class="row justify-content-end">
