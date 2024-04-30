@@ -22,4 +22,4 @@ def create_excel(request, daily_cart):
         ws.cell(row=row, column=column, value=cart[item]["cantidad"])
         column = 1 
         row += 1 
-    wb.save('report.xlsx')
+    wb.save('./viasus/report.xlsx')

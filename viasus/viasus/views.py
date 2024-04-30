@@ -36,5 +36,4 @@ def resume(request):
                 carro.get(str(product.producto.id)).update({ 'cantidad': product.cantidad })
     create_excel(request="", daily_cart=carro)
     # send_mail_excel("", "", "", True, today)
-    path='C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx'
-    return render(request, "resume.html", {"carro": carro, "path":path})
+    return render(request, "resume.html", {"carro": carro})
