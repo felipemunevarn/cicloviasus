@@ -23,6 +23,7 @@ urlpatterns = [
     path('inicio/', views.home, name="home"),
     path('about/', views.about, name="about"),
     path('resume/', views.resume, name="resume"),
+    path('download/', views.download_file, name='download_file'),
     path('catalogo/', include("catalogo.urls")),
     path('carro/', include("carro.urls")),
     path('autenticacion/', include("authentication.urls")),
