@@ -80,7 +80,14 @@
                     </div>
                 </div>
                 <form class="d-flex" role="search" method="get" action="">
-                    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="search" name="busqueda">
+                    <input class="form-control me-2" type="search" list="customers" name="busqueda" id="product" placeholder="Buscar" aria-label="search" multiple required>
+                    <datalist id="products">
+                        {% for product in result %}
+                        {% if product.activo == True %}
+                            <option value="{{product.titulo}}">
+                        {% endif %}
+                        {% endfor %}
+                    </datalist>
                     <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
                 </div>
