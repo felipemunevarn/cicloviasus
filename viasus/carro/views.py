@@ -7,6 +7,7 @@ from carro.context_processor import total
 from django.core.mail import EmailMessage
 from viasus.settings import BASE_DIR
 import os
+from django.utils import timezone
 
 # Create your views here.
 
@@ -50,9 +51,22 @@ def checkout(request):
     delivery_date = request.POST.get("deliveryDate")
     comments = request.POST.get("comments")
     if (delivery_date == ''):
-        pedido = Pedido(cliente=customer, total=total_db, user=user, comentarios=comments)
+        pedido = Pedido(
+            fecha_pedido=timezone.now(),
+            cliente=customer, 
+            total=total_db, 
+            user=user, 
+            comentarios=comments
+        )
     else:
-        pedido = Pedido(cliente=customer, total=total_db, user=user, comentarios=comments, fecha_entrega=delivery_date)
+        pedido = Pedido(
+            fecha_pedido=timezone.now(),
+            cliente=customer, 
+            total=total_db, 
+            user=user, 
+            comentarios=comments, 
+            fecha_entrega=delivery_date
+        )
     pedido.save()
     for item in request.session.get("carro"):
         producto = Producto.objects.get(pk=item)
@@ -60,7 +74,7 @@ def checkout(request):
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
     create_excel(request, daily_cart="")
-    send_mail_excel(request, customer, pedido, False, "")
+    # send_mail_excel(request, customer, pedido, False, "")
     carro = Carro(request)
     carro.limpiar_carro()
     return render(request, "checkout.html")

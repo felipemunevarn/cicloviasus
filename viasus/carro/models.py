@@ -14,7 +14,7 @@ class Cliente(models.Model):
         return self.nombre
     
 class Pedido(models.Model):
-    fecha_pedido = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    fecha_pedido = models.DateTimeField(blank=True, null=True)
     total = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE) 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE) 

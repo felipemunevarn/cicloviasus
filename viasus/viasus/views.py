@@ -8,6 +8,19 @@ import os
 # Create your views here.
 
 def download_file(request):
+    print(request.POST.get('resumeDate'))
+    resume = Pedido.objects.filter(fecha_pedido__contains=request.POST.get('resumeDate', ''))
+    carro = {}
+    for checkout in resume:
+        asked_products = PedidoProducto.objects.filter(pedido_id=checkout.id).select_related()
+        for product in asked_products:
+            if (str(product.producto.id) in carro):
+                carro.get(str(product.producto.id)).update({ 'cantidad':carro.get(str(product.producto.id))["cantidad"] + product.cantidad})
+            else:
+                carro.update({str(product.producto.id): {}})
+                carro.get(str(product.producto.id)).update({ 'cantidad': product.cantidad })
+    create_excel(request="", daily_cart=carro)
+
     # File path to the file you want to download
     file_path = os.path.join(settings.BASE_DIR, 'report.xlsx')
     
@@ -24,16 +37,5 @@ def about(request):
     return render(request, "about.html")
 
 def resume(request):
-    resume = Pedido.objects.filter(fecha_pedido__contains=request.POST.get('resumeDate', ''))
-    carro = {}
-    for checkout in resume:
-        asked_products = PedidoProducto.objects.filter(pedido_id=checkout.id).select_related()
-        for product in asked_products:
-            if (str(product.producto.id) in carro):
-                carro.get(str(product.producto.id)).update({ 'cantidad':carro.get(str(product.producto.id))["cantidad"] + product.cantidad})
-            else:
-                carro.update({str(product.producto.id): {}})
-                carro.get(str(product.producto.id)).update({ 'cantidad': product.cantidad })
-    create_excel(request="", daily_cart=carro)
     # send_mail_excel("", "", "", True, today)
-    return render(request, "resume.html", {"carro": carro})
+    return render(request, "resume.html", {})
