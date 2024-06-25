@@ -61,6 +61,8 @@ def checkout(request):
         pedido_producto.save()
     create_excel(request, daily_cart="")
     send_mail_excel(request, customer, pedido, False, "")
+    carro = Carro(request)
+    carro.limpiar_carro()
     return render(request, "checkout.html")
 
 def find_customer(request):
