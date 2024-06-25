@@ -6,6 +6,7 @@ def create_excel(request, daily_cart):
         cart = request.session.get("carro")
     else:
         cart = daily_cart
+    print(cart)
     wb = Workbook()
     ws = wb.active
     ws['A1'] = 'Codigo'
@@ -22,4 +23,4 @@ def create_excel(request, daily_cart):
         ws.cell(row=row, column=column, value=cart[item]["cantidad"])
         column = 1 
         row += 1 
-    wb.save('./viasus/report.xlsx')
+    wb.save('./report.xlsx')
