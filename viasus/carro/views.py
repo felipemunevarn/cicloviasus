@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from viasus.settings import BASE_DIR
 import os
 from django.utils import timezone
+import datetime
 
 # Create your views here.
 
@@ -93,8 +94,10 @@ def save_new_customer(request):
 
 def send_mail_excel(request, customer, pedido, daily, today):
     if (daily == False):
+        yesterday = pedido.fecha_pedido.now() - datetime.timedelta(days=1)
+        pedido_id_yesterday = Pedido.objects.filter(fecha_pedido__contains=yesterday.date()).last()
         email = EmailMessage(
-            f"Pedido # {pedido.id} con fecha {pedido.fecha_pedido.now().date()}",
+            f"Pedido # {pedido.id - pedido_id_yesterday.id} con fecha {pedido.fecha_pedido.now().date()}",
             f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
             "afmunene@gmail.com",
             ["felipemunevarn@gmail.com","cicloviasus@gmail.com"]

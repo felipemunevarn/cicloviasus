@@ -30,7 +30,7 @@ def create_excel(request, daily_cart, customer):
         column += 1 
         ws.cell(row=row, column=column, value=user.username)
         column += 1 
-        ws.cell(row=row, column=column, value=customer)
+        ws.cell(row=row, column=column, value=customer.nombre)
         column += 1 
         ws.cell(row=row, column=column, value=delivery_date)
         column += 1 
