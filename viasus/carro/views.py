@@ -74,7 +74,7 @@ def checkout(request):
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
     create_excel(request, daily_cart="")
-    # send_mail_excel(request, customer, pedido, False, "")
+    send_mail_excel(request, customer, pedido, False, "")
     carro = Carro(request)
     carro.limpiar_carro()
     return render(request, "checkout.html")
