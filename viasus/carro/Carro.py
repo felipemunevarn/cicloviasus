@@ -14,7 +14,7 @@ class Carro():
         self.session.modified = True
             
     def agregar(self, producto):
-        cantidad = int(self.request.POST.get(producto.codigo))
+        cantidad = int(self.request.POST.get('product_qty'))
         if (str(producto.id) not in self.carro.keys()):
             self.carro[str(producto.id)] = {
                 "imagen": producto.imagen,

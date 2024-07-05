@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from carro.create_excel import create_excel
 from .Carro import Carro
@@ -17,11 +18,15 @@ def carro(request):
     customers = Cliente.objects.all()
     return render(request, "carro.html", {'customers':customers})
 
-def agregar_producto(request, producto_id):
+def agregar_producto(request):
+    producto_id = request.POST.get('product_id')
     carro = Carro(request)
     producto = Producto.objects.get(id = producto_id)
     carro.agregar(producto=producto)
-    return redirect("catalogue")
+    response = {
+        'is_added': "Already added to cart"
+    }
+    return JsonResponse(response)
 
 def restar_unidad(request, producto_id):
     carro = Carro(request)
@@ -102,14 +107,14 @@ def send_mail_excel(request, customer, pedido, daily, today):
             f"Pedido # {pedido.id - pedido_id_yesterday.id} con fecha {pedido.fecha_pedido.now().date()}",
             f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
             "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com","cicloviasus@gmail.com"]
+            ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
         )
     else:
         email = EmailMessage(
             f"Resumen del dia con fecha {today}",
             f"En el adjunto el resumen de todas las ventas al cierre del dia {today}",
             "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com","cicloviasus@gmail.com"]
+            ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
         )
     # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
     email.attach_file(os.path.join(BASE_DIR, 'report.xlsx'))
