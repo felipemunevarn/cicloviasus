@@ -47,7 +47,10 @@
         <h3>No hay nada en el carro</h3>
     {% endif %}
 
-    <form action="{% url 'carro:checkout' %}" method="post">
+    <form action="{% url 'carro:checkout' %}" 
+        method="post"
+        class="show-loading-after-submit" 
+    >
         {% csrf_token %}
         <label for="customer">Elija el cliente de la lista:</label>
         <input list="customers" name="customer" id="customer" multiple required>
@@ -67,10 +70,38 @@
             <a type="button" class="btn disabled">Confirmar</a>
         {% endif %}
     </form>
+    <div>
+        <div id="loadingModal" class="modal" style="visibility:visible; opacity: 1; display: none;">
+            <div class="modal__inner p3 center" style="height:600px;">
+                <h3>Please wait...</h3>
+                <p>
+                    Your request is processing. This might take a few moments.
+                </p>
+                <img src="https://s3.scoopwhoop.com/anj/loading/594155876.gif">
+            </div>
+          </div>
+    </div>
     <script>
         var now = new Date();
         minDate = now.toISOString().substring(0,10);
         date = document.getElementById("my-date-input")
         date.setAttribute("min", minDate)
+    
+        function showLoadingModal(){
+            loadingModal = document.getElementById('loadingModal')
+            loadingModal.style.display = 'block';
+        }
+
+        //For forms: add the class "show-loading-after-submit" to any form you want to show the loader
+        var formsToDelay = document.getElementsByClassName('show-loading-after-submit');
+        for (var i = 0; i < formsToDelay.length; i++) {
+            formsToDelay[i].addEventListener('submit', showLoadingModal);
+        }
+
+        // Not used
+        function showLoader(){
+            bodyEl = document.getElementsByTagName('body')
+            bodyEl.append("<div><div id='loadingModal' class='modal' style='visibility:visible; opacity: 1; display: none;'><div class='modal__inner p3 center' style='height:600px;'><h3>Please wait...</h3><p>Your request is processing. This might take a few moments.</p><img src='https://s3.scoopwhoop.com/anj/loading/594155876.gif'></div></div></div>");
+        }
     </script>
 {% endblock %}

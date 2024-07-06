@@ -88,6 +88,7 @@ def checkout(request):
     send_mail_excel(request, customer, pedido, False, "")
     carro = Carro(request)
     carro.limpiar_carro()
+    request.session['qty'] = carro.__len__() 
     return render(request, "checkout.html")
 
 def find_customer(request):
@@ -123,4 +124,4 @@ def send_mail_excel(request, customer, pedido, daily, today):
         )
     # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
     email.attach_file(os.path.join(BASE_DIR, 'report.xlsx'))
-    email.send(fail_silently=False)
+    # email.send(fail_silently=False)
