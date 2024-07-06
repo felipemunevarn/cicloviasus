@@ -23,6 +23,7 @@ def agregar_producto(request):
     carro = Carro(request)
     producto = Producto.objects.get(id = producto_id)
     carro.agregar(producto=producto)
+    request.session['qty'] = carro.__len__()
     response = {
         'is_added': "Already added to cart"
     }
@@ -32,22 +33,26 @@ def restar_unidad(request, producto_id):
     carro = Carro(request)
     producto = Producto.objects.get(id = producto_id)
     carro.restar(producto=producto)
+    request.session['qty'] = carro.__len__() 
     return redirect("carro:carro")
 
 def sumar_unidad(request, producto_id):
     carro = Carro(request)
     producto = Producto.objects.get(id = producto_id)
     carro.sumar(producto=producto)
+    request.session['qty'] = carro.__len__() 
     return redirect("carro:carro")
 
 def elminiar_producto(request, producto_id):
     carro = Carro(request)
     carro.eliminar(producto_id=producto_id)
+    request.session['qty'] = carro.__len__() 
     return redirect("carro:carro")
 
 def limpiar_carro(request):
     carro = Carro(request)
     carro.limpiar_carro()
+    request.session['qty'] = carro.__len__() 
     return redirect("catalogue")
 
 def checkout(request):

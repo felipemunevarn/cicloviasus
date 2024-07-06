@@ -50,8 +50,7 @@
     }
     async function addItem(btn) {
         const productId = document.getElementsByClassName(String(btn.name))[0].value;
-        console.log(btn.name+1);
-        const productQty = document.getElementById(btn.name).value;
+        let productQty = document.getElementById(btn.name).value;
         fetch('{% url "carro:agregar" %}', {
             method: "POST",
             headers: {
@@ -59,8 +58,12 @@
                 'X-CSRFToken': '{{ csrf_token }}',
             },
             body: `product_id=${productId}&product_qty=${productQty}`
-        }
-        );
+        });
+    const qtyCart = document.getElementsByClassName("badge badge-pill badge-danger")[0];
+    let oldValue = parseInt(qtyCart.innerHTML.trim());
+    let newValue = oldValue + parseInt(productQty);
+    qtyCart.innerHTML = newValue;
+    productQty = 0;
     }
 </script>
 {% endblock %}

@@ -54,3 +54,9 @@ class Carro():
         self.session["carro"] = {}
         self.session.modified = True
 
+    def __len__(self):
+        qty = 0
+        if (self.session["carro"]):
+            for key, values in self.carro.items():
+                qty += values['cantidad']
+        return qty

@@ -59,6 +59,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'carro:carro' %}">Carro</a>
                     </li>
+                    <span 
+                        class="badge badge-pill badge-danger" 
+                        style="background-color: red; align-content: center;">
+                        {{ request.session.qty }}
+                    </span>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">Acerca</a>
                     </li>
