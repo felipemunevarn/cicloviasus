@@ -1,12 +1,17 @@
 {% extends "header_footer.html" %}
 {% block content %}
+{% load static %}
 <div class="container-fluid mt-5">
     <div class="row">
         {% for product in result %}
             {% if product.activo == True %}
             <div class="col-lg-2 mb-2 d-flex">
                 <div class="card">
-                    <img src="{{ product.imagen }}" class="card-img-top" alt="Producto">
+                    {% if 'https://' in product.imagen %}
+                        <img src="{{ product.imagen }}" class="card-img-top" alt="imagen">
+                    {% else %}
+                        <img src="{% static product.imgField %}" class="card-img-top" alt="imagen">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ product.codigo }}</h5>
                         <p class="card-text">{{ product.titulo }}</p>
