@@ -105,12 +105,11 @@ def save_new_customer(request):
 
 def send_mail_excel(request, customer, pedido, daily, today):
     if (daily == False):
-        yesterday = pedido.fecha_pedido.now() - datetime.timedelta(days=1)
-        pedido_id_yesterday = Pedido.objects.filter(fecha_pedido__contains=yesterday.date()).last()
-        if not pedido_id_yesterday:
-            pedido_id_yesterday = Pedido.objects.all().order_by('-id')[1]
+        start_date = datetime.datetime(2024,1,1)
+        yesterday = timezone.now() - datetime.timedelta(days=1)
+        last_pedido_id = Pedido.objects.filter(fecha_pedido__range=(start_date, yesterday)).last().id
         email = EmailMessage(
-            f"Pedido # {pedido.id - pedido_id_yesterday.id} con fecha {pedido.fecha_pedido.now().date()}",
+            f"Pedido # {pedido.id - last_pedido_id} con fecha {timezone.now().date()}",
             f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
             "afmunene@gmail.com",
             ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
