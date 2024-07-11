@@ -1,6 +1,6 @@
 {% extends "header_footer.html" %}
 {% block content %}
-<h1>RESUMEN</h1>
+<br><br>
 <h1>RESUMEN</h1>
 <form action="{% url 'download_file' %}" method="post">
     {% csrf_token %}
@@ -8,7 +8,4 @@
     <input type="date" name="resumeDate" id="my-date-input">
     <button type="submit" class="btn btn-info">Emitir resumen</button>
 </form>
-<h1>{{carro}}</h1>
-<h1>RESUMEN</h1>
-<h1>RESUMEN</h1>
 {% endblock %}

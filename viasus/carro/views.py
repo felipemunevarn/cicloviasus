@@ -85,7 +85,7 @@ def checkout(request):
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
     create_excel(request, daily_cart="", customer=customer)
-    send_mail_excel(request, customer, pedido, False, "")
+    send_checkout_mail_with_excel(request, customer, pedido)
     carro = Carro(request)
     carro.limpiar_carro()
     request.session['qty'] = carro.__len__() 
@@ -103,24 +103,14 @@ def save_new_customer(request):
     new_customer.nombre = request.POST.get("customer")
     new_customer.save()
 
-def send_mail_excel(request, customer, pedido, daily, today):
-    if (daily == False):
-        start_date = datetime.datetime(2024,1,1)
-        yesterday = timezone.now() - datetime.timedelta(days=1)
-        last_pedido_id = Pedido.objects.filter(fecha_pedido__range=(start_date, yesterday)).last().id
-        email = EmailMessage(
-            f"Pedido # {pedido.id - last_pedido_id} con fecha {timezone.now().date()}",
-            f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
-            "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
-        )
-    else:
-        email = EmailMessage(
-            f"Resumen del dia con fecha {today}",
-            f"En el adjunto el resumen de todas las ventas al cierre del dia {today}",
-            "afmunene@gmail.com",
-            ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
-        )
-    # email.attach_file("C:/Users/Administrator/Documents/cicloviasus/viasus/report.xlsx")
+def send_checkout_mail_with_excel(request, customer, pedido):
+    start_date = datetime.datetime(2024,1,1)
+    last_pedido_id = Pedido.objects.filter(fecha_pedido__range=(start_date, timezone.now().date())).last().id
+    email = EmailMessage(
+        f"Pedido # {pedido.id - last_pedido_id} con fecha {timezone.now().date()}",
+        f"Venta del vendedor {request.user.username} al cliente {customer.nombre}",
+        "afmunene@gmail.com",
+        ["felipemunevarn@gmail.com","cicloviasus@gmail.com",request.user.email]
+    )
     email.attach_file(os.path.join(BASE_DIR, 'report.xlsx'))
     email.send(fail_silently=False)
