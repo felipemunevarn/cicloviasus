@@ -13,17 +13,20 @@ def download_file(request):
     carro = {}
     for checkout in resume:
         asked_products = PedidoProducto.objects.filter(pedido_id=checkout.id).select_related()
-        carro.update({str(checkout.id): {}})
         for product in asked_products:
-            carro.get(str(checkout.id)).update({str(product.producto.id): {}}) 
-            carro.get(str(checkout.id)).get(str(product.producto.id)).update({
-                'title': product.producto.titulo,
-                'qty': product.cantidad,
-                'staff': checkout.user.username,
-                'customer': checkout.cliente.nombre,
-                'delivery_date': checkout.fecha_entrega,
-                'comments': checkout.comentarios
+            if (product.producto.id in carro):
+                old_qty = carro.get(str(product.producto.id)).get("qty")
+                carro.get(str(product.producto.id)).update({
+                'qty': old_qty + product.cantidad
             }) 
+            else:
+                carro.update({str(product.producto.id): {}})
+                carro.get(str(product.producto.id)).update({
+                'code': product.producto.codigo,
+                'title': product.producto.titulo,
+                'qty': product.cantidad
+            }) 
+    
     resume_excel(cart=carro)
 
     # File path to the file you want to download

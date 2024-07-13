@@ -64,59 +64,31 @@ def resume_excel(cart):
     wb = Workbook()
     ws = wb.active
 
-    ws['A1'] = 'Pedido'
-    ws['B1'] = 'CodProducto'
-    ws['C1'] = 'Nombre'
-    ws['D1'] = 'Cantidad'
-    ws['E1'] = 'Vendedor'
-    ws['F1'] = 'Cliente'
-    ws['G1'] = 'FechaEntrega'
-    ws['H1'] = 'Comentarios'
+    ws['A1'] = 'Codigo'
+    ws['B1'] = 'Titulo'
+    ws['C1'] = 'Cantidad'
 
     row = 2
     column = 1
 
-    column_widths = [6,11,6,7,8,7,12,11]
+    column_widths = [6,6,8]
 
-    for item,products in cart.items():
-        for prod,atts in products.items():
-            ws.cell(row=row, column=column, value=item)
-            if (len(item) > column_widths[column-1]):
-                column_widths[column-1] = len(item)
-            column += 1 
+    for prod,atts in cart.items():
 
-            ws.cell(row=row, column=column, value=prod)
-            if (len(prod) > column_widths[column-1]):
-                column_widths[column-1] = len(prod)
-            column += 1
+        ws.cell(row=row, column=column, value=atts['code'])
+        if (len(atts['code']) > column_widths[column-1]):
+            column_widths[column-1] = len(atts['code'])
+        column += 1 
 
-            ws.cell(row=row, column=column, value=atts['title'])
-            if (len(atts['title']) > column_widths[column-1]):
-                column_widths[column-1] = len(atts['title'])
-            column += 1
+        ws.cell(row=row, column=column, value=atts['title'])
+        if (len(atts['title']) > column_widths[column-1]):
+            column_widths[column-1] = len(atts['title'])
+        column += 1
 
-            ws.cell(row=row, column=column, value=atts['qty'])
-            column += 1
-
-            ws.cell(row=row, column=column, value=atts['staff'])
-            if (len(atts['staff']) > column_widths[column-1]):
-                column_widths[column-1] = len(atts['staff'])
-            column += 1 
-
-            ws.cell(row=row, column=column, value=atts['customer'])
-            if (len(atts['customer']) > column_widths[column-1]):
-                column_widths[column-1] = len(atts['customer'])
-            column += 1 
-
-            ws.cell(row=row, column=column, value=atts['delivery_date'])
-            column += 1 
-            
-            ws.cell(row=row, column=column, value=atts['comments'])
-            if (len(atts['comments']) > column_widths[column-1]):
-                column_widths[column-1] = len(atts['comments'])
-            
-            column = 1 
-            row += 1
+        ws.cell(row=row, column=column, value=atts['qty'])
+        
+        column = 1 
+        row += 1
 
     # Calculate column widths based on cell content
 
