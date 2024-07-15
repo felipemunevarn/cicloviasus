@@ -84,13 +84,14 @@ def checkout(request):
         cantidad = request.session.get("carro")[item]["cantidad"]
         pedido_producto = PedidoProducto(pedido=pedido, producto=producto, cantidad=cantidad)
         pedido_producto.save()
-    create_excel(request, daily_cart="", customer=customer)
+    totalValue = total(request)['total']
+    create_excel(request, daily_cart="", customer=customer, total=totalValue)
     send_checkout_mail_with_excel(request, customer, pedido)
     carro = Carro(request)
     carro.limpiar_carro()
     request.session['qty'] = carro.__len__() 
     return render(request, "checkout.html")
-
+    
 def find_customer(request):
     chosen_customer = Cliente.objects.filter(nombre=request.POST.get("customer"))
     if not chosen_customer:

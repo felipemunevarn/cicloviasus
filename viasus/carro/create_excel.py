@@ -2,7 +2,7 @@ from openpyxl import Workbook
 from openpyxl import cell
 from catalogo.models import Producto
 
-def create_excel(request, daily_cart, customer):
+def create_excel(request, daily_cart, customer, total):
     if (request != ""):
         cart = request.session.get("carro")
     else:
@@ -53,10 +53,16 @@ def create_excel(request, daily_cart, customer):
         row += 1
 
     # Calculate column widths based on cell content
-
     for i, column_width in enumerate(column_widths, 1):
         column_letter = chr(64 + i)  # Convert index to column letter
         ws.column_dimensions[column_letter].width = column_width + 5
+    
+    row += 1
+    column = 2
+    ws.cell(row=row, column=column, value="TOTAL")
+    column += 1
+    ws.cell(row=row, column=column, value=f'$ {total}')
+
     wb.save('./report.xlsx')
     wb.close()
 
