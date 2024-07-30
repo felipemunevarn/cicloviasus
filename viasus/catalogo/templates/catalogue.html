@@ -10,7 +10,7 @@
                     {% if 'https://' in product.imagen %}
                         <img src="{{ product.imagen }}" class="card-img-top" alt="imagen">
                     {% else %}
-                        <img src="{% static product.imgField %}" class="card-img-top" alt="imagen">
+                        <img src="{{ product.imgCloud.url }}" class="card-img-top" alt="imagenCloud">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ product.codigo }}</h5>

@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 
@@ -8,7 +9,8 @@ class Producto(models.Model):
     precio = models.FloatField(default=0.0)
     codigo = models.CharField(max_length=13)
     activo = models.BooleanField(default=True)
-    imgField = models.ImageField(upload_to='staticfiles/', default=None, null=True)
+    # ownImage = CloudinaryField('ownImage', default=None, null=True)
+    imgCloud = CloudinaryField('imgCloud', default=None, null=True)
 
     def __str__(self):
         return f'Codigo: {self.codigo} Titulo: {self.titulo} Precio: {self.precio}'
